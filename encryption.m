@@ -1,19 +1,8 @@
-function C = encryption(im,s1,s2,s3)
-im = double(im);
+function C = encryption(P,K1,K2,K3,par)
+    [M,N] = size(P);
+    MN = M*N;
+    D1 = Diff1(P,K1,par,MN);
+    D2 = shuff(D1,K2);
+    C = Diff2(D2,K3,par,MN);
+end
 
-[M,N] = size(im);
-
-A = im;
-for i = 1:M
-    tmp = A(i,:);
-    A(i,:) = A(s1(i),:);
-    A(s1(i),:) = tmp;
-end
-B = A;
-for j = 1:N
-    tmp = B(:,j);
-    B(:,j) = B(:,s2(j));
-    B(:,s2(j)) = tmp;
-end
-C = bitxor(B,s3);
-end

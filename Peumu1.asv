@@ -1,0 +1,13 @@
+function Ped = shuff(P,Sboxes)
+    [m,n] = size(Sboxes);
+    P = reshape(P,1,[]);
+    MN = length(P);
+    Ped = NaN(1,MN);
+    rem = MN / m;
+    for i = 1:m
+        Sbox = reshape(Sboxes(i,:),16,16);
+        Ped((i-1)*rem+1:i*rem) = Sbox(P((i-1)*rem+1:i*rem)+1);
+    end
+
+    Ped = uint8(Ped);
+end

@@ -1,24 +1,27 @@
 clc; clear all; close all;
-%% load image
-P = imread('Data\04.png');
-figure
-imshow(P)
-P = double(P);
+
+P = imread("Starfish.png");
+
 [M,N] = size(P);
+ini = [0.1,0.1,0.1];
 
-%% Generating the key
-key = keygen(P);
+[K1,K2,K3] = ChaoticGen(ini,M,N,16);
 
-initial = key(1:3);
-TT = [0.35+key(4),17+key(5),3+key(6),key(7)];
-%% Generating chaotic sequences
-[s1,s2,s3] = ChaoticGen(initial,TT,M,N);
+par = uint8(5);
+tic
+C = encryption(P,K1,K2,K3,par);
+toc
 
-%% Chaos-based encryption
-C = encryption(P,s1,s2,s3);
+Cp = reshape(C,M,N);
+tic
+D = decryption(Cp,K1,K2,K3,par);
+toc
+Dp = reshape(D,M,N);
+
 figure
-imshow(uint8(C))
-%% Decryption process
-D = decryption(C,s1,s2,s3);
+imshow(Cp)
+title("encrypted image")
+
 figure
-imshow(uint8(D))
+imshow(Dp)
+title("decrypted image")
