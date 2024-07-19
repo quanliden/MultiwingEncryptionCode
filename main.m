@@ -8,8 +8,10 @@ par = 1;
 P = reshape(P,1,[]);
 
 %% encryption process
+tic
 [K1,K2,K3] = ChaoticGen(ini,M,N);
 C = encryption(P,K1,K2,K3,par);
+toc
 Cp = reshape(uint8(C),M,N);
 
 figure(1)
@@ -21,8 +23,10 @@ title("encrypted image")
 
 ini = [0.1,0.1,0.1];
 par = 1;
+tic
 [K1,K2,K3] = ChaoticGen(ini,M,N);
 D = decryption(C,K1,K2,K3,par);
+toc
 Dp = reshape(uint8(D),M,N);
 figure(2)
 imshow(Dp)
