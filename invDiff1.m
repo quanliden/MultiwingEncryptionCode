@@ -8,5 +8,5 @@ for k = 1:MN
     tmp_ip = D1(k);
     tmp_ik = K1(k);
 end
-iD1 = uint8(iD1);
+
 end

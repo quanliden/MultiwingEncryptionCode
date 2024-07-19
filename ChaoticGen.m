@@ -1,4 +1,4 @@
-function [K1,K2,K3] = ChaoticGen(ini,M,N,Ns)
+function [K1,K2,K3] = ChaoticGen(ini,M,N)
 cut = 1000;
 MN = M * N;
 L = MN+cut;
@@ -7,15 +7,13 @@ tsp = linspace(0,500,L);
 Y = y(cut+1:end,:);
 
 %% generate the key for the first round diffusion
-K1 = mod(floor((Y(1:MN,1)+Y(1:MN,2))*10^12),256)+1;
-%% generate the number of Ns Sboxes for the pixel shuffling
-s2 = reshape(Y(1:Ns*256,1),Ns,256);
-[~,K2] = sort(s2,2);
-K2 = K2 - 1;
+K1 = mod(floor((Y(1:MN,1)+Y(1:MN,2))*10^12),256);
+%% generate K2 for the pixel shuffling
+s2 = (Y(1:MN,1)+Y(1:MN,2)+Y(1:MN,3));
+[~,K2] = sort(s2);
 %% generate the key for the second round diffusion
-K3 = mod(floor((Y(1:MN,3)+Y(1:MN,1))*10^12),256)+1;
-%% convert the data format to uint8
-K1 = uint8(K1); K2 = uint8(K2); K3 = uint8(K3);
+K3 = mod(floor((Y(1:MN,3)+Y(1:MN,1))*10^12),256);
+
 end
 
 function dX = odefunc(t,X)
